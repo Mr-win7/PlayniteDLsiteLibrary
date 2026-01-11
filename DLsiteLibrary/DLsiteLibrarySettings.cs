@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using DLsiteMetadata;
+using DLsiteMetadata.Enums;
 using Playnite.SDK;
 using Playnite.SDK.Data;
 

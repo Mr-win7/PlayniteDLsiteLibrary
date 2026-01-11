@@ -52,7 +52,13 @@
     <Compile Include="..\DLsiteMetadata\source\DLsiteScrapperResult.cs">
       <Link>DLsiteScrapperResult.cs</Link>
     </Compile>
-    <Compile Include="..\DLsiteMetadata\source\SupportedLanguages.cs">
+    <Compile Include="..\DLsiteMetadata\source\Enums\SupportedLanguages.cs">
+      <Link>SupportedLanguages.cs</Link>
+    </Compile>
+    <Compile Include="..\DLsiteMetadata\source\Exceptions\ProductUnavailableException.cs">
+      <Link>SupportedLanguages.cs</Link>
+    </Compile>
+    <Compile Include="..\DLsiteMetadata\source\TranslationDictionary.cs">
       <Link>SupportedLanguages.cs</Link>
     </Compile>
     <Compile Include="DLsiteLibrary.cs" />
@@ -91,6 +97,9 @@
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.9.9" />
     <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.4</Version>
+    </PackageReference>
     <PackageReference Include="PlayniteSDK" Version="6.11.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
