@@ -1,0 +1,47 @@
+name: Build (.NET Framework 4.6.2)
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v1
+
+      - name: Find solution file
+        id: find_sln
+        shell: pwsh
+        run: |
+          $sln = Get-ChildItem -Path . -Filter *.sln -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
+          if (-not $sln) { Write-Host "::error::No .sln file found in repository"; exit 1 }
+          Write-Host "Solution: $sln"
+          echo "sln=$sln" | Out-File -Encoding ASCII $env:GITHUB_OUTPUT
+
+      - name: Restore NuGet packages
+        if: steps.find_sln.outputs.sln != ''
+        shell: pwsh
+        run: |
+          nuget restore "${{ steps.find_sln.outputs.sln }}" -PackagesDirectory packages
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Build solution with MSBuild
+        if: steps.find_sln.outputs.sln != ''
+        shell: pwsh
+        run: |
+          msbuild "${{ steps.find_sln.outputs.sln }}" /p:Configuration=Release /p:Platform="Any CPU" /p:TargetFrameworkVersion=v4.6.2 /m
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            **/bin/Release/**
+            **/bin/**
