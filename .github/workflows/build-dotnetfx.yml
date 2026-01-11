@@ -10,6 +10,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # Ensure submodules are checked out recursively
+          submodules: 'recursive'
+          # Fetch full history (sometimes needed for submodule operations)
+          fetch-depth: 0
 
       - name: Setup NuGet
         uses: nuget/setup-nuget@v1
